@@ -12,6 +12,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import datetime
+import pytz
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
@@ -85,7 +86,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='タスケテ'))
     elif event.message.text == "today":
-        today = datetime.datetime.today().strftime('%Y/%m/%d %H%M%S')
+        today = datetime.datetime.today(pytz.timezone('Asia/Tokyo')).strftime('%Y/%m/%d %H:%M:%S')
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= str(today)))
