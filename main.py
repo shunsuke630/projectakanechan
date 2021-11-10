@@ -11,6 +11,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+import datetime
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
@@ -83,6 +84,10 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='タスケテ'))
+    elif event.message.text == "today":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=datetime.datetime.today()))
     else:
         line_bot_api.reply_message(
             event.reply_token,
