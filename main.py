@@ -52,9 +52,10 @@ def callback():
 # 第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='akanechan'))
+    if event == "アカネチャンの使い方":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='好きな文字をいれてね'))
 
 # ポート番号の設定
 if __name__ == "__main__":
