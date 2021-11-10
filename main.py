@@ -1,4 +1,5 @@
 # 必要モジュールの読み込み
+import random
 from flask import Flask, request, abort
 import os
 from linebot import (
@@ -46,20 +47,46 @@ def callback():
     # handleの処理を終えればOK
     return 'OK'
 
+words = ['せやな',
+         'そやな',
+         'うん？',
+         'わかる',
+         'Seyana...',
+         'Sorena...',
+         'Soyana...',
+         'Seyana!',
+         'Sorena!',
+         'Soyana!',
+         'ほんま',
+         'Wakaru',
+         'ええで',
+         '知らんけど～',
+         'ええんちゃう？',
+         'わかる(感銘)',
+         'わかる(明察)',
+         'わかる(達観)',
+         'わかる(博識)',
+         'わかる(天下無双)',
+         'Wakaru(Wakaru)',
+         'どしたの?',
+         'あほくさ',
+         'Arena!'
+        ]
+
 # LINEでMessageEvent（普通のメッセージを送信された場合）が起こった場合に、
 # def以下の関数を実行します。
 # reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。 
 # 第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == "アカネチャンの使い方":
+    if event.message.text == "help":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='好きな文字をいれてね'))
+            TextSendMessage(text='タスケテ'))
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='あほくさ'))
+            TextSendMessage(text=random.choice(words)))
 
 # ポート番号の設定
 if __name__ == "__main__":
