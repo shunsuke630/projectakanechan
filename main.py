@@ -73,7 +73,6 @@ words = ['せやな',
          'あほくさ',
          'Arena!'
         ]
-today = datetime.datetime.today()
 
 # LINEでMessageEvent（普通のメッセージを送信された場合）が起こった場合に、
 # def以下の関数を実行します。
@@ -86,6 +85,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='タスケテ'))
     elif event.message.text == "today":
+        today = datetime.datetime.today().strftime('%Y/%m/%d %H%M%S')
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text= str(today)))
