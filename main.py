@@ -84,7 +84,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='タスケテ'))
-    elif re.search('アカネチャン',event.message.txt) :
+    elif re.search('アカネチャン',event.message.text) :
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=random.choice(words)))
