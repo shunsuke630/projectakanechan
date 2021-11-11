@@ -13,7 +13,10 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import re
+
+from requests.models import encode_multipart_formdata
 from aknanewords import words
+from weather_data import get_weather
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
@@ -65,7 +68,11 @@ def handle_message(event):
     if event.message.text == "help":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='タスケテ'))
+            TextSendMessage(text='アカネチャンという文字を含めて話しかけてな'))
+    elif event.message.text == "天気":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=get_weather))
     elif re.search('アカネチャン', event.message.text):
         line_bot_api.reply_message(
             event.reply_token,
