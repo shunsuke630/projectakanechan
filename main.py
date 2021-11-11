@@ -72,7 +72,7 @@ def handle_message(event):
     elif event.message.text == "天気":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=get_weather()))
+            TextSendMessage(text=str(get_weather())))
     elif re.search('アカネチャン', event.message.text):
         line_bot_api.reply_message(
             event.reply_token,
