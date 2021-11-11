@@ -2,6 +2,7 @@
 import random
 from flask import Flask, request, abort
 import os
+from future.utils import python_2_unicode_compatible
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -12,11 +13,12 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import re
+from aknanewords import words
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
 
-#環境変数取得
+# 環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
@@ -25,11 +27,15 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 # Herokuログイン接続確認のためのメソッド
 # Herokuにログインすると「hello world」とブラウザに表示される
+
+
 @app.route("/")
 def hello_world():
     return "hello world!"
 
 # ユーザーからメッセージが送信された際、LINE Message APIからこちらのメソッドが呼び出される。
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # リクエストヘッダーから署名検証のための値を取得
@@ -48,49 +54,26 @@ def callback():
     # handleの処理を終えればOK
     return 'OK'
 
-words = ['せやな',
-         'そやな',
-         'うん？',
-         'わかる',
-         'Seyana...',
-         'Sorena...',
-         'Soyana...',
-         'Seyana!',
-         'Sorena!',
-         'Soyana!',
-         'ほんま',
-         'Wakaru',
-         'ええで',
-         '知らんけど～',
-         'ええんちゃう？',
-         'わかる(感銘)',
-         'わかる(明察)',
-         'わかる(達観)',
-         'わかる(博識)',
-         'わかる(天下無双)',
-         'Wakaru(Wakaru)',
-         'どしたの?',
-         'あほくさ',
-         'Arena!'
-        ]
-
 # LINEでMessageEvent（普通のメッセージを送信された場合）が起こった場合に、
 # def以下の関数を実行します。
-# reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。 
+# reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。
 # 第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text == "help":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='タスケテ'))
-    elif re.search('アカネチャン',event.message.text) :
+    elif re.search('アカネチャン', event.message.text):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=random.choice(words)))
 
+
 # ポート番号の設定
 if __name__ == "__main__":
-#    app.run()
+    #    app.run()
     port = int(os.getenv("PORT"))
     app.run(host="0.0.0.0", port=port)
