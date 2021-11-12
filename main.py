@@ -70,11 +70,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='アカネチャンという文字を含めて話しかけてな'))
     elif event.message.text == "天気":
-        for result in get_weather():
-            result = "\n".join(result)
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=result))
+        result = get_weather()
+        result = "\n".join(result)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result))
     elif re.search('アカネチャン', event.message.text):
         line_bot_api.reply_message(
             event.reply_token,

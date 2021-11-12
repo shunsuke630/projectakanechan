@@ -14,7 +14,8 @@ def get_weather():
         weather = html.find('p',{'class': 'weather-telop'}).get_text()
         weather = [title[0],weather]
         weathers.append(weather)
-
-    return weathers
+    
+    for result in weathers:
+        return result
 
 
