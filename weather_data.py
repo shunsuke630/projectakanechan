@@ -18,6 +18,7 @@ def get_weather():
     
     for result in weathers:
         result = "\n".join(result)
-        return result
+    
+    return result
 
 
