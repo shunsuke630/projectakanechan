@@ -1,3 +1,5 @@
+from math import perm
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -14,7 +16,11 @@ def get_weather():
         weather = html.find('p',{'class': 'weather-telop'}).get_text()
         weather = [title[0],weather]
         weathers.append(weather)
-    
-    return weathers
+
+    weather_data = []
+    for result in weathers:
+        weather_data.extend(result)
+
+    return weather_data
 
 
