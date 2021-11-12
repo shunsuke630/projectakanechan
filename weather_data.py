@@ -12,6 +12,6 @@ def get_weather():
         title = html.find('h2').get_text().split('の')
         weather = html.find('p',{'class': 'weather-telop'}).get_text()
         weather = '\n'.join([title[0], weather])
-        return weather
+    return weather
 
 
