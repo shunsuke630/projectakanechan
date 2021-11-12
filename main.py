@@ -82,7 +82,7 @@ def handle_message(event):
         image_data = make_image_message()
         line_bot_api.reply_message(
             event.reply_token,
-            messages)
+            image_data)
 
 
 def make_image_message():
