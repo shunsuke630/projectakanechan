@@ -1,3 +1,4 @@
+from future.utils import ensure_new_type
 import requests
 from bs4 import BeautifulSoup
 
@@ -16,6 +17,7 @@ def get_weather():
         weathers.append(weather)
     
     for result in weathers:
+        result = "\n".join(result)
         return result
 
 
