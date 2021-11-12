@@ -88,8 +88,8 @@ def handle_message(event):
 def make_image_message():
     
     messages = ImageSendMessage(
-        original_content_url = 'https://i.gyazo.com/0aff0fbedd9286058065c158187cedb2.jpg', #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-        preview_image_url = 'https://gyazo.com/0aff0fbedd9286058065c158187cedb2.jpg' #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+        original_content_url = 'https://i.gyazo.com/c0d44682ba8f5eced79239687522bb28.jpg', #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+        preview_image_url = 'https://i.gyazo.com/c0d44682ba8f5eced79239687522bb28.jpg' #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
     )
     return messages
 
