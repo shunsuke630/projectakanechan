@@ -87,7 +87,7 @@ def handle_message(event):
 
 
 def make_image_message():
-    filename = 'S__96649250.jpg'
+    filename = '\\line_bot\\S__96649250.jpg'
     img =Image.open(filename)
     messages = ImageSendMessage(
         original_content_url = img, #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
