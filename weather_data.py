@@ -16,9 +16,6 @@ def get_weather():
         weather = [title[0],weather]
         weathers.append(weather)
     
-    for result in weathers:
-        result = "\n".join(result)
-    
-    return result
+    return weathers
 
 
