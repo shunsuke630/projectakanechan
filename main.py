@@ -87,8 +87,8 @@ def handle_message(event):
 
 def make_image_message():
     messages = ImageSendMessage(
-        original_content_url="https://img.cpcdn.com/recipes/5478383/m/08cafb0b3b54066d49a6cb1e9516d0b2?u=29164197&p=1548817965", #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-        preview_image_url="https://img.cpcdn.com/recipes/5478383/m/08cafb0b3b54066d49a6cb1e9516d0b2?u=29164197&p=1548817965" #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+        original_content_url="https://pokemori-yun.com/wp-content/uploads/2019/03/401c0adee3e8a18ead9fc03ed38e9e2b.png", #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+        preview_image_url="https://pokemori-yun.com/wp-content/uploads/2019/03/401c0adee3e8a18ead9fc03ed38e9e2b.png" #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
     )
     return messages
 
