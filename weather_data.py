@@ -1,4 +1,3 @@
-from future.utils import ensure_new_type
 import requests
 from bs4 import BeautifulSoup
 

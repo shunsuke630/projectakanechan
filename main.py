@@ -14,7 +14,6 @@ from linebot.models import (
 )
 import re
 
-from requests.models import encode_multipart_formdata
 from aknanewords import words
 from weather_data import get_weather
 
