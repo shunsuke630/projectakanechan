@@ -2,7 +2,6 @@
 import random
 from flask import Flask, request, abort
 import os
-from future.utils import python_2_unicode_compatible
 from linebot import (
     LineBotApi, WebhookHandler
 )
