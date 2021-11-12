@@ -9,12 +9,13 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, messages,
 )
 import re
 
 from aknanewords import words
 from weather_data import get_weather
+from linebot.models import ImageSendMessage
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
@@ -77,6 +78,19 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=random.choice(words)))
+    elif event.message.text == "プリン":
+        image_data = make_image_message()
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages)
+
+
+def make_image_message():
+    messages = ImageSendMessage(
+        original_content_url="https://img.cpcdn.com/recipes/5478383/m/08cafb0b3b54066d49a6cb1e9516d0b2?u=29164197&p=1548817965", #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+        preview_image_url="https://img.cpcdn.com/recipes/5478383/m/08cafb0b3b54066d49a6cb1e9516d0b2?u=29164197&p=1548817965" #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
+    )
+    return messages
 
 
 # ポート番号の設定
