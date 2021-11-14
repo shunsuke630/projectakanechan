@@ -16,6 +16,7 @@ import re
 from aknanewords import words
 from weather_data import get_weather
 from linebot.models import ImageSendMessage
+from images import horror_image_message
 
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
@@ -84,7 +85,7 @@ def handle_message(event):
             event.reply_token,
             image_data)
     elif event.message.text == "シフォンケーキ":
-        image_data = make_image_message1()
+        image_data = horror_image_message()
         line_bot_api.reply_message(
             event.reply_token,
             image_data)
@@ -97,13 +98,7 @@ def make_image_message():
     )
     return messages
 
-def make_image_message1():
-    
-    messages = ImageSendMessage(
-        original_content_url = 'https://i.gyazo.com/e54023898ac2a8d9902a4850a2a44bf0.jpg', #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-        preview_image_url = 'https://i.gyazo.com/e54023898ac2a8d9902a4850a2a44bf0.jpg' #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-    )
-    return messages
+
 
 
 
