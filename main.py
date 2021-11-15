@@ -1,5 +1,5 @@
 # 必要モジュールの読み込み
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import random
 from flask import Flask, request, abort
 import os
@@ -10,9 +10,12 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, messages,
+    MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
+    DatetimePickerAction,
 )
 import re
+
+from linebot.models.template import ButtonsTemplate
 
 from aknanewords import words
 from weather_data import get_weather
@@ -66,6 +69,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    group_id = event.source.group_id #グループID
+    user_id = event.source.user_id #ユーザID
+    profile = line_bot_api.get_group_member_profile(group_id, user_id)
     if event.message.text == "help":
         line_bot_api.reply_message(
             event.reply_token,
@@ -90,11 +96,29 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             image_data)
-    elif event.message.text == '今日':
-        today = datetime.now()
+    elif event.message.text == '登録':
+        date_picker = TemplateSendMessage(
+                    alt_text = '誕生日を設定',
+                    template = ButtonsTemplate(
+                        text = f'{profile.display_name}さんの誕生日を設定します',
+                        title = '誕生日通知システム',
+                        actions =[ 
+                        DatetimePickerAction(
+                                label = '誕生日を登録する',
+                                date = 'action=regist&&mode=date',
+                                mode = "date",
+                                initial = '1998-01-01',
+                                min = '1980-01-01',
+                                max = '2100-01-01'
+                        )
+                        ]
+                    )
+        )
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=str(today)))
+            date_picker
+        )
+    
 
 def make_image_message():
     

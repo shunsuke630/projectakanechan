@@ -1,11 +1,13 @@
-import linebot
+# import linebot
 import requests
 from bs4 import BeautifulSoup
-import os
-from datetime import datetime,timedelta,timezone
-from linebot import LineBotApi
-from linebot.models import TextSendMessage
+# import os
+# from datetime import datetime,timedelta,timezone
+# from linebot import LineBotApi
+# from linebot.models import TextSendMessage
 
+# YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
+# line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 
 urls = ['https://tenki.jp/forecast/3/13/4210/10203/',
        'https://tenki.jp/forecast/3/13/4210/10201/',
@@ -28,4 +30,6 @@ def get_weather():
     return weather_data
 
 # def check_weather():
+#     dt_now = datetime.now()
+
     
