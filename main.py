@@ -100,18 +100,18 @@ def handle_message(event):
     #         image_data)
     if "何でも言うことを聞いてくれるアカネチャン" in message and '登録' in message:
         date_picker = TemplateSendMessage(
-                    alt_text = '誕生日を設定',
-                    template = ButtonsTemplate(
-                        text = f'{profile.display_name}さんの誕生日を設定します',
-                        title = '誕生日通知システム',
-                        actions =[ 
+                    alt_text='誕生日を設定',
+                    template=ButtonsTemplate(
+                        text=f'{profile.display_name}さんの誕生日を設定します',
+                        title='誕生日通知システム',
+                        actions=[ 
                         DatetimePickerAction(
-                                label = '誕生日を登録する',
-                                date = 'action=regist&&mode=date',
-                                mode = "date",
-                                initial = '1998-01-01',
-                                min = '1980-01-01',
-                                max = '2100-01-01'
+                                label='誕生日を登録する',
+                                date='action=regist&&mode=date',
+                                mode="date",
+                                initial='1998-01-01',
+                                min='1980-01-01',
+                                max='2100-01-01'
                         )
                         ]
                     )
