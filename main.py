@@ -1,4 +1,5 @@
 # 必要モジュールの読み込み
+from datetime import date, datetime
 import random
 from flask import Flask, request, abort
 import os
@@ -89,6 +90,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             image_data)
+    elif event.message.text == '今日':
+        today = datetime.now()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(today)))
 
 def make_image_message():
     
