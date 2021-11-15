@@ -110,7 +110,7 @@ def handle_message(event):
     #     line_bot_api.reply_message(
     #         event.reply_token,
     #         image_data)
-    if "何でも言うことを聞いてくれるアカネチャン" in message and '登録' in message:
+    if message == "登録":
         date_picker = TemplateSendMessage(
                     alt_text='誕生日を設定',
                     template=ButtonsTemplate(
