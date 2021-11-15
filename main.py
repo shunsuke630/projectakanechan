@@ -23,12 +23,29 @@ from weather_data import get_weather
 from linebot.models import ImageSendMessage
 from images import horror_image_message
 
+import firebase_admin
+from firebase_admin import credentials
+from google.cloud import storage
+
 # 変数appにFlaskを代入。インスタンス化
 app = Flask(__name__)
 
 # 環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+# Firebaseの認証情報
+GOOGLE_APPLICATION_CREDENTIALS=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+# Firebaseのバケット先
+FIREBASE_STORAGE_BUCKET=os.environ["FIREBASE_STORAGE_BUCKET"]
+cred = credentials.Certificate(GOOGLE_APPLICATION_CREDENTIALS)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': FIREBASE_STORAGE_BUCKET
+})
+
+# インスタンス作成
+client = storage.Client()
+bucket = client.get_bucket(FIREBASE_STORAGE_BUCKET)
+
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
@@ -88,11 +105,6 @@ def handle_message(event):
     #     line_bot_api.reply_message(
     #         event.reply_token,
     #         TextSendMessage(text=random.choice(words)))
-    # elif event.message.text == "プリン":
-    #     image_data = make_image_message()
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         image_data)
     # elif event.message.text == "シフォンケーキ":
     #     image_data = horror_image_message()
     #     line_bot_api.reply_message(
@@ -121,19 +133,51 @@ def handle_message(event):
             date_picker
         )
     
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    group_id = event.source.group_id # グループID
+    user_id = event.source.user_id # ユーザーID
+    profile = line_bot_api.get_group_member_profile(group_id, user_id) # ユーザーのプロファイル
+    dateString = event.postback.params['date'] # datePickerから送信された日付
+    birthday_triming = dateString.split('-')
+    if event.postback.data == 'action=regist&&mode=date':
+        registe_birthday(
+            group_id,
+            profile.display_name,
+            user_id,
+            dateString
+        )
+        month = int(birthday_triming[1])
+        day = int(birthday_triming[2])
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text=f'{profile.display_name}さんが誕生日を登録しました！\n{month}月{day}日に通知します✨'))
 
-def make_image_message():
-    
-    messages = ImageSendMessage(
-        original_content_url = 'https://i.gyazo.com/0aff0fbedd9286058065c158187cedb2.jpg', #JPEG 最大画像サイズ：240×240 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-        preview_image_url = 'https://i.gyazo.com/0aff0fbedd9286058065c158187cedb2.jpg' #JPEG 最大画像サイズ：1024×1024 最大ファイルサイズ：1MB(注意:仕様が変わっていた)
-    )
-    return messages
-
-# @handler.add(PostbackEvent)
-# def handle_postback(event):
-
-
+def registe_birthday(group_id,display_name,user_id,birthday):
+    file_path = f'birthday/{group_id}.csv' # グループIDをファイル名にする
+    blob = bucket.blob(file_path) # ストレージのパスを指定
+    # - で分割して年月日を配列に格納
+    # (例: birthday_triming[0] = 2021, birthday_triming[1] = 8, birthday_triming[2] = 28)
+    birthday_triming = birthday.split('-')
+    month = birthday_triming[1]
+    day = birthday_triming[2]
+    # LINEでの表示名,ユーザー識別ID,月,日を文字列として連結
+    write_texts = [f"{display_name},{user_id},{month},{day}"]
+    if blob.exists():
+        input_file = blob.open()
+        datalist = input_file.read().splitlines()
+        for line in datalist:
+            if f"{user_id}" in line:
+                continue
+            else:
+                write_texts.append(line)
+    csv_string_to_upload = "" 
+    for text in write_texts:
+        csv_string_to_upload += text + "\n"
+    # Firebase Storageにアップロードする
+    blob.upload_from_string(
+        data=csv_string_to_upload,
+        content_type='text/csv'
+        )
 
 # ポート番号の設定
 if __name__ == "__main__":
