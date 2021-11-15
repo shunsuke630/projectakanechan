@@ -11,7 +11,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
-    DatetimePickerAction,
+    DatetimePickerAction, messages,
 )
 import re
 from linebot.models.events import PostbackEvent
@@ -70,34 +70,35 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    message = event.message.text #メッセージ内容
     group_id = event.source.group_id #グループID
     user_id = event.source.user_id #ユーザID
     profile = line_bot_api.get_group_member_profile(group_id, user_id)
-    if event.message.text == "help":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='アカネチャンという文字を含めて話しかけてな'))
-    elif event.message.text == "天気":
-        result = get_weather()
-        result = "\n".join(result)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=result))
-    elif re.search('アカネチャン', event.message.text):
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=random.choice(words)))
-    elif event.message.text == "プリン":
-        image_data = make_image_message()
-        line_bot_api.reply_message(
-            event.reply_token,
-            image_data)
-    elif event.message.text == "シフォンケーキ":
-        image_data = horror_image_message()
-        line_bot_api.reply_message(
-            event.reply_token,
-            image_data)
-    elif "何でも言うことを聞いてくれるアカネチャン" in event.message.text and '登録' in event.message.text:
+    # if event.message.text == "help":
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text='アカネチャンという文字を含めて話しかけてな'))
+    # elif event.message.text == "天気":
+    #     result = get_weather()
+    #     result = "\n".join(result)
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text=result))
+    # elif re.search('アカネチャン', event.message.text):
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text=random.choice(words)))
+    # elif event.message.text == "プリン":
+    #     image_data = make_image_message()
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         image_data)
+    # elif event.message.text == "シフォンケーキ":
+    #     image_data = horror_image_message()
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         image_data)
+    if "何でも言うことを聞いてくれるアカネチャン" in message and '登録' in message:
         date_picker = TemplateSendMessage(
                     alt_text = '誕生日を設定',
                     template = ButtonsTemplate(
