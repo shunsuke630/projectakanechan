@@ -14,6 +14,7 @@ from linebot.models import (
     DatetimePickerAction,
 )
 import re
+from linebot.models.events import PostbackEvent
 
 from linebot.models.template import ButtonsTemplate
 
@@ -96,7 +97,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             image_data)
-    elif event.message.text == '登録':
+    elif "何でも言うことを聞いてくれるアカネチャン" in event.message.text and '登録' in event.message.text:
         date_picker = TemplateSendMessage(
                     alt_text = '誕生日を設定',
                     template = ButtonsTemplate(
@@ -128,7 +129,8 @@ def make_image_message():
     )
     return messages
 
-
+# @handler.add(PostbackEvent)
+# def handle_postback(event):
 
 
 
