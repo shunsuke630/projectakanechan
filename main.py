@@ -112,72 +112,72 @@ def handle_message(event):
     #         image_data)
     if message == "登録":
         date_picker = TemplateSendMessage(
-                    alt_text='誕生日を設定',
-                    template=ButtonsTemplate(
-                        # text=f'{profile.display_name}さんの誕生日を設定します',
-                        title='誕生日通知システム',
-                        actions=[ 
-                        DatetimePickerTemplateAction(
-                                label='誕生日を登録する',
-                                date='action=regist&&mode=date',
-                                mode="date",
-                                initial='1998-01-01',
-                                min='1980-01-01',
-                                max='2100-01-01'
-                        )
-                        ]
+                alt_text='誕生日を設定',
+                template=ButtonsTemplate(
+                    text=f'{profile.display_name}さんの誕生日を設定します',
+                    title='誕生日通知システム',
+                    actions=[ 
+                    DatetimePickerTemplateAction(
+                            label='誕生日を登録する',
+                            date='action=regist&&mode=date',
+                            mode="date",
+                            initial='1998-01-01',
+                            min='1980-01-01',
+                            max='2100-01-01'
                     )
+                    ]
+                )
         )
         line_bot_api.reply_message(
             event.reply_token,
             date_picker
         )
     
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    group_id = event.source.group_id # グループID
-    user_id = event.source.user_id # ユーザーID
-    profile = line_bot_api.get_group_member_profile(group_id, user_id) # ユーザーのプロファイル
-    dateString = event.postback.params['date'] # datePickerから送信された日付
-    birthday_triming = dateString.split('-')
-    if event.postback.data == 'action=regist&&mode=date':
-        registe_birthday(
-            group_id,
-            profile.display_name,
-            user_id,
-            dateString
-        )
-        month = int(birthday_triming[1])
-        day = int(birthday_triming[2])
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text=f'{profile.display_name}さんが誕生日を登録しました！\n{month}月{day}日に通知します✨'))
+# @handler.add(PostbackEvent)
+# def handle_postback(event):
+#     group_id = event.source.group_id # グループID
+#     user_id = event.source.user_id # ユーザーID
+#     profile = line_bot_api.get_group_member_profile(group_id, user_id) # ユーザーのプロファイル
+#     dateString = event.postback.params['date'] # datePickerから送信された日付
+#     birthday_triming = dateString.split('-')
+#     if event.postback.data == 'action=regist&&mode=date':
+#         registe_birthday(
+#             group_id,
+#             profile.display_name,
+#             user_id,
+#             dateString
+#         )
+#         month = int(birthday_triming[1])
+#         day = int(birthday_triming[2])
+#         line_bot_api.reply_message(
+#             event.reply_token, TextSendMessage(text=f'{profile.display_name}さんが誕生日を登録しました！\n{month}月{day}日に通知します✨'))
 
-def registe_birthday(group_id,display_name,user_id,birthday):
-    file_path = f'birthday/{group_id}.csv' # グループIDをファイル名にする
-    blob = bucket.blob(file_path) # ストレージのパスを指定
-    # - で分割して年月日を配列に格納
-    # (例: birthday_triming[0] = 2021, birthday_triming[1] = 8, birthday_triming[2] = 28)
-    birthday_triming = birthday.split('-')
-    month = birthday_triming[1]
-    day = birthday_triming[2]
-    # LINEでの表示名,ユーザー識別ID,月,日を文字列として連結
-    write_texts = [f"{display_name},{user_id},{month},{day}"]
-    if blob.exists():
-        input_file = blob.open()
-        datalist = input_file.read().splitlines()
-        for line in datalist:
-            if f"{user_id}" in line:
-                continue
-            else:
-                write_texts.append(line)
-    csv_string_to_upload = "" 
-    for text in write_texts:
-        csv_string_to_upload += text + "\n"
-    # Firebase Storageにアップロードする
-    blob.upload_from_string(
-        data=csv_string_to_upload,
-        content_type='text/csv'
-        )
+# def registe_birthday(group_id,display_name,user_id,birthday):
+#     file_path = f'birthday/{group_id}.csv' # グループIDをファイル名にする
+#     blob = bucket.blob(file_path) # ストレージのパスを指定
+#     # - で分割して年月日を配列に格納
+#     # (例: birthday_triming[0] = 2021, birthday_triming[1] = 8, birthday_triming[2] = 28)
+#     birthday_triming = birthday.split('-')
+#     month = birthday_triming[1]
+#     day = birthday_triming[2]
+#     # LINEでの表示名,ユーザー識別ID,月,日を文字列として連結
+#     write_texts = [f"{display_name},{user_id},{month},{day}"]
+#     if blob.exists():
+#         input_file = blob.open()
+#         datalist = input_file.read().splitlines()
+#         for line in datalist:
+#             if f"{user_id}" in line:
+#                 continue
+#             else:
+#                 write_texts.append(line)
+#     csv_string_to_upload = "" 
+#     for text in write_texts:
+#         csv_string_to_upload += text + "\n"
+#     # Firebase Storageにアップロードする
+#     blob.upload_from_string(
+#         data=csv_string_to_upload,
+#         content_type='text/csv'
+#         )
 
 # ポート番号の設定
 if __name__ == "__main__":
