@@ -11,7 +11,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
-    DatetimePickerAction, messages,
+    DatetimePickerAction, messages,DatetimePickerTemplateAction
 )
 import re
 from linebot.models.events import PostbackEvent
@@ -117,7 +117,7 @@ def handle_message(event):
                         text=f'{profile.display_name}さんの誕生日を設定します',
                         title='誕生日通知システム',
                         actions=[ 
-                        DatetimePickerAction(
+                        DatetimePickerTemplateAction(
                                 label='誕生日を登録する',
                                 date='action=regist&&mode=date',
                                 mode="date",
