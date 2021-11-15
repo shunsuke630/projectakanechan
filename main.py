@@ -114,7 +114,7 @@ def handle_message(event):
         date_picker = TemplateSendMessage(
                     alt_text='誕生日を設定',
                     template=ButtonsTemplate(
-                        text=f'{profile.display_name}さんの誕生日を設定します',
+                        # text=f'{profile.display_name}さんの誕生日を設定します',
                         title='誕生日通知システム',
                         actions=[ 
                         DatetimePickerTemplateAction(
