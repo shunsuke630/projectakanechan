@@ -117,7 +117,7 @@ def handle_message(event):
                     text=f'{profile.display_name}さんの誕生日を設定します',
                     title='誕生日通知システム',
                     actions=[ 
-                    DatetimePickerTemplateAction(
+                    DatetimePickerAction(
                             label='誕生日を登録する',
                             date='action=regist&&mode=date',
                             mode="date",
