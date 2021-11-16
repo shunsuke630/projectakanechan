@@ -88,8 +88,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = event.message.text #メッセージ内容
-    group_id = event.source.group_id #グループID
-    user_id = event.source.user_id #ユーザID
+    group_id = event.source.group_id() #グループID
+    user_id = event.source.user_id() #ユーザID
     profile = line_bot_api.get_group_member_profile(group_id, user_id)
     # if event.message.text == "help":
     #     line_bot_api.reply_message(
