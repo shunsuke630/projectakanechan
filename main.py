@@ -95,22 +95,22 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='アカネチャンという文字を含めて話しかけてな'))
-    # elif event.message.text == "天気":
-    #     result = get_weather()
-    #     result = "\n".join(result)
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=result))
-    # elif re.search('アカネチャン', event.message.text):
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=random.choice(words)))
-    # elif event.message.text == "シフォンケーキ":
-    #     image_data = horror_image_message()
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         image_data)
-    if message == "登録":
+    elif event.message.text == "天気":
+        result = get_weather()
+        result = "\n".join(result)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result))
+    elif re.search('アカネチャン', event.message.text):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=random.choice(words)))
+    elif event.message.text == "シフォンケーキ":
+        image_data = horror_image_message()
+        line_bot_api.reply_message(
+            event.reply_token,
+            image_data)
+    elif message == "登録":
         date_picker = TemplateSendMessage(
                 alt_text='誕生日を設定',
                 template=ButtonsTemplate(
@@ -123,7 +123,7 @@ def handle_message(event):
                             mode="date",
                             initial='1998-01-01',
                             min='1980-01-01',
-                            max='2100-01-01'
+                            max='2050-01-01'
                     )
                     ]
                 )
