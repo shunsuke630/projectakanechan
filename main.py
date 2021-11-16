@@ -34,17 +34,17 @@ app = Flask(__name__)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 # Firebaseの認証情報
-GOOGLE_APPLICATION_CREDENTIALS=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-# Firebaseのバケット先
-FIREBASE_STORAGE_BUCKET=os.environ["FIREBASE_STORAGE_BUCKET"]
-cred = credentials.Certificate(GOOGLE_APPLICATION_CREDENTIALS)
-firebase_admin.initialize_app(cred, {
-    'storageBucket': FIREBASE_STORAGE_BUCKET
-})
+# GOOGLE_APPLICATION_CREDENTIALS=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+# # Firebaseのバケット先
+# FIREBASE_STORAGE_BUCKET=os.environ["FIREBASE_STORAGE_BUCKET"]
+# cred = credentials.Certificate(GOOGLE_APPLICATION_CREDENTIALS)
+# firebase_admin.initialize_app(cred, {
+#     'storageBucket': FIREBASE_STORAGE_BUCKET
+# })
 
-# インスタンス作成
-client = storage.Client()
-bucket = client.get_bucket(FIREBASE_STORAGE_BUCKET)
+# # インスタンス作成
+# client = storage.Client()
+# bucket = client.get_bucket(FIREBASE_STORAGE_BUCKET)
 
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
