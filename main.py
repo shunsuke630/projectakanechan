@@ -88,9 +88,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = event.message.text #メッセージ内容
-    # group_id = event.source.group_id() #グループID
-    # user_id = event.source.user_id() #ユーザID
-    # profile = line_bot_api.get_group_member_profile(group_id, user_id)
+    group_id = event.source.group_id #グループID
+    user_id = event.source.user_id #ユーザID
+    profile = line_bot_api.get_group_member_profile(group_id, user_id)
     if event.message.text == "help":
         line_bot_api.reply_message(
             event.reply_token,
@@ -110,28 +110,28 @@ def handle_message(event):
     #     line_bot_api.reply_message(
     #         event.reply_token,
     #         image_data)
-    # if message == "登録":
-    #     date_picker = TemplateSendMessage(
-    #             alt_text='誕生日を設定',
-    #             template=ButtonsTemplate(
-    #                 text='さんの誕生日を設定します',
-    #                 title='誕生日通知システム',
-    #                 actions=[ 
-    #                 DatetimePickerAction(
-    #                         label='誕生日を登録する',
-    #                         date='action=regist&&mode=date',
-    #                         mode="date",
-    #                         initial='1998-01-01',
-    #                         min='1980-01-01',
-    #                         max='2100-01-01'
-    #                 )
-    #                 ]
-    #             )
-    #     )
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         date_picker
-    #     )
+    if message == "登録":
+        date_picker = TemplateSendMessage(
+                alt_text='誕生日を設定',
+                template=ButtonsTemplate(
+                    text='さんの誕生日を設定します',
+                    title='誕生日通知システム',
+                    actions=[ 
+                    DatetimePickerAction(
+                            label='誕生日を登録する',
+                            date='action=regist&&mode=date',
+                            mode="date",
+                            initial='1998-01-01',
+                            min='1980-01-01',
+                            max='2100-01-01'
+                    )
+                    ]
+                )
+        )
+        line_bot_api.reply_message(
+            event.reply_token,
+            date_picker
+        )
     
 # @handler.add(PostbackEvent)
 # def handle_postback(event):
